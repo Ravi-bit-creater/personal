@@ -91,7 +91,6 @@ button:disabled{
     <div class="right" id="pageText"></div>
 </div>
 
-<!-- Buttons moved here -->
 <div class="controls">
     <button id="prevBtn" onclick="prevPage()">Previous</button>
     <button id="nextBtn" onclick="nextPage()">Next</button>
@@ -99,6 +98,9 @@ button:disabled{
 
 <script>
 const pages = [
+    {
+        text: "Let’s begin our beautiful journey together… ❤️"
+    },
     { img:"images/firstmeet.jpeg", text:"Edhn nama starting endha day... nama 1st pic nama 1st bike ride elame.. adhu same color la dress no words to say.. ❤️" },
     { img:"images/2.jpeg", text:"Edhu dhn nama 1st touching photo adhu enku eh teriyaamaa ne enaa eduthaaa fraduu di neee 💖" },
     { img:"images/3.jpeg", text:"Edhu nama 1st romance uhhhh aniku summa bike ride polam nu vandha ana una en home ku kutitu poitu ahahaha ana nan sona mari na dhn 1st kiss panaa un body aa touch paana unna feel panaa complete aaaa apo ne enkula vandhaa kuttaa...." },
@@ -113,10 +115,11 @@ const pages = [
     { img:"images/favorite.jpg", text:"Endha pic at the day of unga anna marriage ne andha golden saree laaa thevadha mari irudha tieryumaaa ena pinna ota dhn rmba perusuuu  💖" },
     { img:"images/favorite.jpg", text:"Endha pic aa ena nu solla nama 1st temple date nu solradhaa illa valitane day nu solradha but rendum eh same day la nadadhuchiiii  💖" },
     { img:"images/favorite.jpg", text:"Endha pic nama last aa room pona apo eduthadhuu ne paiyan pavam nu avatar ku kutitu polam nu ninachaaa ana final aa room poi kasa musa panitoo but after long long days agoooo.....  💖" },
-    { img:"images/favorite.jpg", text:"Endha pic aa ena nu solla nama 1st temple date nu solradhaa illa valitane day nu solradha but rendum eh same day la nadadhuchiiii  💖" },
     { img:"images/favorite.jpg", text:"Endha pic nama kalan beel plan potu vandhu andha kada ilama vera kadai poi 175 rps ku selavu vechi aprm key chain vanga pona anga edum set agama unga patti fish ketaga nu solli anga poi ninu endha pic eduthoo ne edu na edu nu mathi mathi finally oru nala pic vandhuchii...  💖" },
     { img:"images/favorite.jpg", text:"Endha pic marakve mudiyadhu diii ore naal la ewlo emotions happiness, crying, sandaa and romance elamee but pic aa thedadhaa adhu irukadhu ne guess pannu which moment nuuu na yen pic podala na enta illa unta dhn iruku ini varikum ne enta tharalaaaa 💖" },
-    {  text:"Kuttaaa 💖 ne just enku oru lover aa matum edu varikum irudadhu illaaa… enku elam time uh enku support panirukaa 🤗 enoda good times laa enkuda irudhuruka ✨ enoda bad times la enku ne support paniruka 🫂 enoda back bone aa irudhurkaaa 💪 naa una nerya neray neryavee hurt panirukann 😔 ana adhelm ne maradhu oru oru vati uh enna manuchi viduraa 🙏 epdi lam yar irupagan nu terilaaa… but elam time uh ne enna forgive paani ethurukaa 🤍 ne enku kidachi oru mega periya pokisam 💎 but ena na its hard to accpect ne vera yaruko wife aga poravaa 💔 ana ena dhn irudhalum ne enoda 1st wife 💍 and i am your 1st husband 🤞 ena matu vitutu poganum nu ninachaaa una thedi vandhu kadipaaaaa 😤❤️ but terilaa edhu epdi marumm after your marrige nama epdi eh irupm aa illa mariruvom aa nu terilaa 🤷‍♂️ aniku ena nadakudho andha nejam 🕰️ butt apdi ne marita na enna nala adha ethukave mudiyadhuuuu 😢 terilaa taknu emoition aaitaaa 😭 enku terilaa di enku unna endha alavuku pudiku nu enku sola terilaaa 💞 unkita irudhu oru oru visyam uh na rasipannn 🌸 un smile 😊 un smell 🌺 edhu mari neerya nerayaa thanks for being with me kuttaaa 🙏 epayum epdi eh iruuu enkuda vee ❤️ love youu kuttaaa… 💖" }
+    {
+        text:"Kuttaaa 💖 ne just enku oru lover aa matum edu varikum irudadhu illaaa… enku elam time uh enku support panirukaa 🤗 enoda good times laa enkuda irudhuruka ✨ enoda bad times la enku ne support paniruka 🫂 enoda back bone aa irudhurkaaa 💪 naa una nerya neray neryavee hurt panirukann 😔 ana adhelm ne maradhu oru oru vati uh enna manuchi viduraa 🙏 epdi lam yar irupagan nu terilaaa… but elam time uh ne enna forgive paani ethurukaa 🤍 ne enku kidachi oru mega periya pokisam 💎 but ena na its hard to accpect ne vera yaruko wife aga poravaa 💔 ana ena dhn irudhalum ne enoda 1st wife 💍 and i am your 1st husband 🤞 ena matu vitutu poganum nu ninachaaa una thedi vandhu kadipaaaaa 😤❤️ but terilaa edhu epdi marumm after your marrige nama epdi eh irupm aa illa mariruvom aa nu terilaa 🤷‍♂️ aniku ena nadakudho andha nejam 🕰️ butt apdi ne marita na enna nala adha ethukave mudiyadhuuuu 😢 terilaa taknu emoition aaitaaa 😭 enku terilaa di enku unna endha alavuku pudiku nu enku sola terilaaa 💞 unkita irudhu oru oru visyam uh na rasipannn 🌸 un smile 😊 un smell 🌺 edhu mari neerya nerayaa thanks for being with me kuttaaa 🙏 epayum epdi eh iruuu enkuda vee ❤️ love youu kuttaaa… 💖"
+    }
 ];
 
 let currentPage = 0;
@@ -136,12 +139,9 @@ function loadPage(){
         if(page.img){
             imgEl.src = page.img;
             imgEl.style.display="block";
-
-            // Normal layout
             document.querySelector(".left").style.display = "block";
             document.querySelector(".right").style.width = "50%";
         } else {
-            // LAST PAGE — text full width
             imgEl.style.display="none";
             document.querySelector(".left").style.display = "none";
             document.querySelector(".right").style.width = "100%";
