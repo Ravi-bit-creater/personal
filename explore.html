@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Explore Our World 🌎</title>
+
+<style>
+body{
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background: linear-gradient(135deg,#ffe0eb,#fff0f5);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+/* Book */
+.book{
+    width:900px;
+    height:500px;
+    background:white;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+    display:flex;
+    overflow:hidden;
+    position:relative;
+    transition:opacity 0.5s;
+}
+
+/* Left image */
+.left{
+    width:50%;
+    background:#000;
+}
+
+.left img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+/* Right text */
+.right{
+    width:50%;
+    padding:40px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    font-family:'Pacifico', cursive;
+    color:#ff4d6d;
+    font-size:1.4rem;
+}
+
+/* Controls OUTSIDE book */
+.controls{
+    margin-top:25px;
+    width:900px;
+    display:flex;
+    justify-content:space-between;
+}
+
+button{
+    padding:10px 25px;
+    border:none;
+    border-radius:25px;
+    background:#ff4d6d;
+    color:white;
+    cursor:pointer;
+    font-size:1rem;
+}
+
+button:disabled{
+    background:#ccc;
+    cursor:not-allowed;
+}
+
+.fade{
+    opacity:0;
+}
+</style>
+</head>
+<body>
+
+<div class="book" id="book">
+    <div class="left">
+        <img id="pageImage" src="">
+    </div>
+    <div class="right" id="pageText"></div>
+</div>
+
+<!-- Buttons moved here -->
+<div class="controls">
+    <button id="prevBtn" onclick="prevPage()">Previous</button>
+    <button id="nextBtn" onclick="nextPage()">Next</button>
+</div>
+
+<script>
+const pages = [
+    { img:"images/firstmeet.jpeg", text:"Edhn nama starting endha day... nama 1st pic nama 1st bike ride elame.. adhu same color la dress no words to say.. ❤️" },
+    { img:"images/2.jpeg", text:"Edhu dhn nama 1st touching photo adhu enku eh teriyaamaa ne enaa eduthaaa fraduu di neee 💖" },
+    { img:"images/3.jpeg", text:"Edhu nama 1st romance uhhhh aniku summa bike ride polam nu vandha ana una en home ku kutitu poitu ahahaha ana nan sona mari na dhn 1st kiss panaa un body aa touch paana unna feel panaa complete aaaa apo ne enkula vandhaa kuttaa...." },
+    { img:"images/4.jpeg", text:"Endha pic ne enakagaa un home la poi solitu ena paka vandhaa adhum sunday world laye periya athusiyam adhuuu sunday ne veliya vandadhuuu😄" },
+    { img:"images/5.jpeg", text:"Endha pic kanidpaa maraka mudiyadhuu unakagaa na pottu vechi vitaaa andha potu la ne semaa alagaaa irudha teriyumaaaa kuttaaaaa ur where so beautifull ✨" },
+    { img:"images/6.jpeg", text:"Edhu oru mari different pic matching matching aaa adhu ilamaa aniku naa rishi kuda rmbaa attach anaa un family kuda attach ana feel 💖" },
+    { img:"images/7.jpeg", text:"Edhu last pic of andha office andha office aa vitu na veliya vandhaan next happy aa next life move panalm nu ulla oru happy feel enkuda nee oru mari cant express kuttaa 💖" },
+    { img:"images/8.jpeg", text:"Edhu un brady kuttaa unkagaa na surprise laa ready pani andha ring aa sema feel but please kutta epaiyum andha ring aa kalatadhaa even after your marriage💖" },
+    { img:"images/9.jpeg", text:"Edhu nama family pic kuttaaa nan nee nama paiyan munu perum uhh irupom but anikum eh oru kutty romance uhhhhh....💖" },
+    { img:"images/10.jpeg", text:"Edhu enakagaa ne vandadhuuu enku odambu seri illa nu teriji enkagaa ne ena paka vandhaaa apo en kannu la kalagii oru mari enna emoition aakitaaaa rmbaaa anadha kannir lam vandhuchiii..... so sweet of youuu" },
+    { img:"images/favorite.jpg", text:"Endha pic na unku puu vangi kuduthaa 1st time but enna enku dhn adhu veka teriyamaaa poidchiii..  💖" },
+    { img:"images/favorite.jpg", text:"Endha pic at the day of unga anna marriage ne andha golden saree laaa thevadha mari irudha tieryumaaa ena pinna ota dhn rmba perusuuu  💖" },
+    { img:"images/favorite.jpg", text:"Endha pic aa ena nu solla nama 1st temple date nu solradhaa illa valitane day nu solradha but rendum eh same day la nadadhuchiiii  💖" },
+    { img:"images/favorite.jpg", text:"Endha pic nama last aa room pona apo eduthadhuu ne paiyan pavam nu avatar ku kutitu polam nu ninachaaa ana final aa room poi kasa musa panitoo but after long long days agoooo.....  💖" },
+    { img:"images/favorite.jpg", text:"Endha pic aa ena nu solla nama 1st temple date nu solradhaa illa valitane day nu solradha but rendum eh same day la nadadhuchiiii  💖" },
+    { img:"images/favorite.jpg", text:"Endha pic nama kalan beel plan potu vandhu andha kada ilama vera kadai poi 175 rps ku selavu vechi aprm key chain vanga pona anga edum set agama unga patti fish ketaga nu solli anga poi ninu endha pic eduthoo ne edu na edu nu mathi mathi finally oru nala pic vandhuchii...  💖" },
+    { img:"images/favorite.jpg", text:"Endha pic marakve mudiyadhu diii ore naal la ewlo emotions happiness, crying, sandaa and romance elamee but pic aa thedadhaa adhu irukadhu ne guess pannu which moment nuuu na yen pic podala na enta illa unta dhn iruku ini varikum ne enta tharalaaaa 💖" },
+    {  text:"Kuttaaa 💖 ne just enku oru lover aa matum edu varikum irudadhu illaaa… enku elam time uh enku support panirukaa 🤗 enoda good times laa enkuda irudhuruka ✨ enoda bad times la enku ne support paniruka 🫂 enoda back bone aa irudhurkaaa 💪 naa una nerya neray neryavee hurt panirukann 😔 ana adhelm ne maradhu oru oru vati uh enna manuchi viduraa 🙏 epdi lam yar irupagan nu terilaaa… but elam time uh ne enna forgive paani ethurukaa 🤍 ne enku kidachi oru mega periya pokisam 💎 but ena na its hard to accpect ne vera yaruko wife aga poravaa 💔 ana ena dhn irudhalum ne enoda 1st wife 💍 and i am your 1st husband 🤞 ena matu vitutu poganum nu ninachaaa una thedi vandhu kadipaaaaa 😤❤️ but terilaa edhu epdi marumm after your marrige nama epdi eh irupm aa illa mariruvom aa nu terilaa 🤷‍♂️ aniku ena nadakudho andha nejam 🕰️ butt apdi ne marita na enna nala adha ethukave mudiyadhuuuu 😢 terilaa taknu emoition aaitaaa 😭 enku terilaa di enku unna endha alavuku pudiku nu enku sola terilaaa 💞 unkita irudhu oru oru visyam uh na rasipannn 🌸 un smile 😊 un smell 🌺 edhu mari neerya nerayaa thanks for being with me kuttaaa 🙏 epayum epdi eh iruuu enkuda vee ❤️ love youu kuttaaa… 💖" }
+];
+
+let currentPage = 0;
+
+const imgEl = document.getElementById("pageImage");
+const textEl = document.getElementById("pageText");
+const book = document.getElementById("book");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+
+function loadPage(){
+    book.classList.add("fade");
+
+    setTimeout(()=>{
+        const page = pages[currentPage];
+
+        if(page.img){
+            imgEl.src = page.img;
+            imgEl.style.display="block";
+
+            // Normal layout
+            document.querySelector(".left").style.display = "block";
+            document.querySelector(".right").style.width = "50%";
+        } else {
+            // LAST PAGE — text full width
+            imgEl.style.display="none";
+            document.querySelector(".left").style.display = "none";
+            document.querySelector(".right").style.width = "100%";
+        }
+
+        textEl.innerText = page.text;
+
+        prevBtn.disabled = currentPage === 0;
+
+        if(currentPage === pages.length-1){
+            nextBtn.innerText = "The End ❤️";
+            nextBtn.disabled = true;
+        } else {
+            nextBtn.innerText = "Next";
+            nextBtn.disabled = false;
+        }
+
+        book.classList.remove("fade");
+    },300);
+}
+
+function nextPage(){
+    if(currentPage < pages.length-1){
+        currentPage++;
+        loadPage();
+    }
+}
+
+function prevPage(){
+    if(currentPage > 0){
+        currentPage--;
+        loadPage();
+    }
+}
+
+loadPage();
+</script>
+
+</body>
+</html>

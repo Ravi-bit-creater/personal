@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Love Word Match 💌</title>
+<style>
+body {
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background: linear-gradient(135deg,#ffe0eb,#fff0f5);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    flex-direction:column;
+}
+
+h2 {
+    font-family:'Pacifico', cursive;
+    color:#ff4d6d;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+#gameBoard {
+    display:grid;
+    grid-template-columns: repeat(4, 120px);
+    grid-gap:15px;
+    justify-content:center;
+}
+
+.card {
+    width:120px;
+    height:80px;
+    background:#ffccd5;
+    border-radius:10px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    font-family:'Pacifico', cursive;
+    font-size:1.1rem;
+    color:#ff4d6d;
+    position:relative;
+    user-select:none;
+    transition: transform 0.3s;
+}
+
+.card.flipped, .card.matched {
+    background:#ff4d6d;
+    color:#fff0f5;
+    transform: rotateY(180deg);
+}
+
+.romantic-message {
+    display:none;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    text-align:center;
+    max-width:400px;
+    color:#ff4d6d;
+    font-size:1.2rem;
+    font-family:'Pacifico', cursive;
+    margin-top:20px;
+}
+
+button {
+    padding:10px 25px;
+    border:none;
+    border-radius:20px;
+    background:#ff4d6d;
+    color:white;
+    cursor:pointer;
+    margin-top:15px;
+    font-size:1rem;
+}
+</style>
+</head>
+<body>
+
+<h2>Love Word Match 💌</h2>
+
+<div id="gameBoard"></div>
+
+<div class="romantic-message" id="message">
+    ❤️ You matched all my heartbeats! Forever yours 💖
+    <br>
+    <button onclick="startGame()">Play Again</button>
+</div>
+
+<script>
+const gameBoard = document.getElementById("gameBoard");
+const messageBox = document.getElementById("message");
+
+// Romantic words for matching (each appears twice)
+let words = ["Love","Hug","Kiss","Heart","Smile","Dear","Soul","Honey"];
+let cards = [];
+let flipped = [];
+let matches = 0;
+
+function startGame(){
+    gameBoard.innerHTML = "";
+    messageBox.style.display = "none";
+    flipped = [];
+    matches = 0;
+
+    // Duplicate words and shuffle
+    cards = [...words, ...words].sort(()=>Math.random()-0.5);
+
+    // Create card elements
+    cards.forEach((word, index)=>{
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.dataset.word = word;
+        card.dataset.index = index;
+        card.innerText = "";
+        card.addEventListener("click", ()=>flipCard(card));
+        gameBoard.appendChild(card);
+    });
+}
+
+function flipCard(card){
+    if(card.classList.contains("flipped") || card.classList.contains("matched") || flipped.length===2) return;
+
+    card.classList.add("flipped");
+    card.innerText = card.dataset.word;
+    flipped.push(card);
+
+    if(flipped.length===2){
+        setTimeout(checkMatch, 800);
+    }
+}
+
+function checkMatch(){
+    const [card1, card2] = flipped;
+    if(card1.dataset.word === card2.dataset.word){
+        card1.classList.add("matched");
+        card2.classList.add("matched");
+        matches++;
+        if(matches === words.length){
+            messageBox.style.display = "block";
+        }
+    } else {
+        card1.classList.remove("flipped");
+        card2.classList.remove("flipped");
+        card1.innerText = "";
+        card2.innerText = "";
+    }
+    flipped = [];
+}
+
+// Initialize game
+startGame();
+</script>
+
+</body>
+</html>

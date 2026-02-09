@@ -1,0 +1,147 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', sans-serif;
+}
+
+.page{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* Page 1 */
+.page1{
+    background:linear-gradient(135deg,#ffe0eb,#fff0f5);
+}
+
+.confirm-box{
+    text-align:center;
+}
+
+.confirm-box h1{
+    font-size:2.5rem;
+    margin-bottom:30px;
+    font-family:'Pacifico', cursive;
+    color:#ff4d6d;
+}
+
+.btn-group button{
+    padding:12px 30px;
+    margin:10px;
+    border:none;
+    border-radius:25px;
+    background:#ff4d6d;
+    color:white;
+    font-size:1.1rem;
+    cursor:pointer;
+}
+
+/* Welcome Page */
+.page2{
+    background:url('images/bg.jpeg') no-repeat center/cover;
+    position:relative;
+    display:none;
+}
+
+.page2::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    backdrop-filter:blur(8px);
+    background:rgba(0,0,0,0.4);
+}
+
+.welcome-overlay{
+    position:relative;
+    color:white;
+    text-align:center;
+}
+
+.welcome-overlay h1{
+    font-size:3rem;
+    font-family:'Pacifico', cursive;
+}
+
+.next-btn{
+    margin-top:30px;
+    padding:12px 30px;
+    border:none;
+    border-radius:25px;
+    background:#ff4d6d;
+    color:white;
+    font-size:1.2rem;
+    cursor:pointer;
+}
+
+/* Popup */
+.popup{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.6);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:1000;
+}
+
+.popup-box{
+    background:white;
+    padding:40px;
+    border-radius:15px;
+    text-align:center;
+}
+
+.popup-box h2{
+    margin-bottom:20px;
+    color:#ff4d6d;
+    font-family:'Pacifico', cursive;
+}
+
+.popup-box button{
+    padding:10px 25px;
+    margin:10px;
+    border:none;
+    border-radius:20px;
+    background:#ff4d6d;
+    color:white;
+    cursor:pointer;
+}
+
+/* GAME LIST PAGE */
+.game-list{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#fff0f5,#ffe0eb);
+}
+
+.game-box{
+    background:white;
+    padding:40px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+.game-box h1{
+    font-family:'Pacifico', cursive;
+    color:#ff4d6d;
+    margin-bottom:30px;
+}
+
+.game-box button{
+    display:block;
+    width:250px;
+    margin:10px auto;
+    padding:12px;
+    border:none;
+    border-radius:25px;
+    background:#ff4d6d;
+    color:white;
+    font-size:1rem;
+    cursor:pointer;
+}

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Love Catcher ❤️</title>
+<style>
+body {
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    background: linear-gradient(135deg,#ffe0eb,#fff0f5);
+    flex-direction: column;
+}
+
+h2 {
+    font-family:'Pacifico', cursive;
+    color:#ff4d6d;
+    margin-bottom:20px;
+    text-align:center;
+}
+
+canvas{
+    border:3px solid #ff4d6d;
+    border-radius:15px;
+    background:#fff0f5;
+}
+
+.popup{
+    position:fixed;
+    inset:0;
+    background: rgba(0,0,0,0.6);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    display:none;
+    z-index:1000;
+}
+
+.popup-box{
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    text-align:center;
+    max-width:400px;
+    font-family:'Pacifico', cursive;
+    color:#ff4d6d;
+}
+
+button{
+    padding:10px 25px;
+    border:none;
+    border-radius:20px;
+    background:#ff4d6d;
+    color:white;
+    cursor:pointer;
+    margin-top:15px;
+    font-size:1rem;
+}
+</style>
+</head>
+<body>
+
+<h2>Love Catcher ❤️</h2>
+<canvas id="gameCanvas" width="400" height="500"></canvas>
+
+<!-- Completion Popup -->
+<div id="popup" class="popup">
+    <div class="popup-box">
+        ❤️ You caught my heart! 💖<br>
+        <p id="finalScore"></p>
+        <button onclick="restartGame()">Play Again</button>
+    </div>
+</div>
+
+<script>
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+const width = canvas.width;
+const height = canvas.height;
+
+// Player (basket) properties
+const basket = {x: width/2 - 30, y: height-40, width:60, height:20, speed:15};
+
+// Hearts
+let hearts = [];
+let heartSize = 30;
+let spawnInterval = 2000; // spawn every 2s
+let lastSpawn = 0;
+
+// Score & misses
+let score = 0;
+let misses = 0;
+const maxMisses = 5;
+
+let gameOver = false;
+
+// Controls
+let keys = {left:false, right:false};
+
+document.addEventListener("keydown",(e)=>{
+    if(e.key==="ArrowLeft") keys.left=true;
+    if(e.key==="ArrowRight") keys.right=true;
+});
+document.addEventListener("keyup",(e)=>{
+    if(e.key==="ArrowLeft") keys.left=false;
+    if(e.key==="ArrowRight") keys.right=false;
+});
+
+function drawBasket(){
+    ctx.fillStyle="#ff4d6d";
+    ctx.fillRect(basket.x, basket.y, basket.width, basket.height);
+}
+
+function drawHeart(heart){
+    ctx.font = `${heartSize}px Arial`;
+    ctx.textAlign="center";
+    ctx.textBaseline="middle";
+    ctx.fillText("❤️", heart.x + heartSize/2, heart.y + heartSize/2);
+}
+
+function spawnHeart(){
+    const x = Math.random() * (width - heartSize);
+    hearts.push({x:x, y:-heartSize});
+}
+
+function updateHearts(delta){
+    for(let i=hearts.length-1;i>=0;i--){
+        hearts[i].y += 150 * delta/1000; // speed px/s
+
+        // Check collision with basket
+        if(hearts[i].y + heartSize >= basket.y &&
+           hearts[i].x + heartSize > basket.x &&
+           hearts[i].x < basket.x + basket.width){
+            score++;
+            hearts.splice(i,1);
+        }
+        // Missed
+        else if(hearts[i].y > height){
+            misses++;
+            hearts.splice(i,1);
+            if(misses>=maxMisses) gameOver=true;
+        }
+    }
+}
+
+function drawScore(){
+    const padding = 10;
+    const textHeight = 30;
+    ctx.fillStyle = "rgba(255,255,255,0.6)"; // soft background behind text
+    ctx.fillRect(width/2 - 80, padding-5, 160, 40);
+
+    ctx.fillStyle="#ff4d6d";
+    ctx.font="20px Segoe UI";
+    ctx.textAlign="center";
+    ctx.fillText("Score: "+score+"   Missed: "+misses+"/"+maxMisses, width/2, padding + 20);
+}
+
+let lastTime = 0;
+function gameLoop(timestamp){
+    if(gameOver){
+        document.getElementById("finalScore").innerText = "Your Score: "+score;
+        document.getElementById("popup").style.display="flex";
+        return;
+    }
+
+    const delta = timestamp - lastTime;
+    lastTime = timestamp;
+
+    ctx.clearRect(0,0,width,height);
+
+    // Move basket
+    if(keys.left && basket.x>0) basket.x -= basket.speed;
+    if(keys.right && basket.x + basket.width < width) basket.x += basket.speed;
+
+    // Spawn hearts
+    lastSpawn += delta;
+    if(lastSpawn > spawnInterval){
+        spawnHeart();
+        lastSpawn = 0;
+    }
+
+    // Update & draw hearts
+    updateHearts(delta);
+    hearts.forEach(drawHeart);
+
+    drawBasket();
+    drawScore();
+
+    requestAnimationFrame(gameLoop);
+}
+
+function restartGame(){
+    basket.x = width/2 - basket.width/2;
+    hearts = [];
+    score = 0;
+    misses = 0;
+    gameOver = false;
+    document.getElementById("popup").style.display="none";
+    lastTime = performance.now();
+    lastSpawn = 0;
+    requestAnimationFrame(gameLoop);
+}
+
+// Start game
+requestAnimationFrame(gameLoop);
+</script>
+
+</body>
+</html>

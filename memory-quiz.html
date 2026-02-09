@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Memory Love Quiz ❤️</title>
+<style>
+body{
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background:linear-gradient(135deg,#ffe0eb,#fff0f5);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.quiz-box{
+    background:white;
+    padding:40px;
+    border-radius:15px;
+    text-align:center;
+    width:90%;
+    max-width:500px;
+}
+
+button{
+    padding:10px 25px;
+    margin:10px;
+    border:none;
+    border-radius:20px;
+    background:#ff4d6d;
+    color:white;
+    cursor:pointer;
+}
+
+.popup{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.6);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:1000;
+}
+
+.popup-box{
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    text-align:center;
+    max-width:90%;
+    max-height:90%;
+    overflow:hidden;
+}
+
+/* Photo Popup Image */
+.photo-popup img{
+    width:100%;
+    height:auto;
+    max-height:70vh;
+    object-fit:cover;
+    border-radius:15px;
+    display:block;
+    margin:0 auto 15px auto;
+}
+
+/* Romantic Ending */
+.romantic-ending{
+    display:none;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+}
+.romantic-ending h2{
+    font-family:'Pacifico', cursive;
+    font-size:2.5rem;
+    color:#ff4d6d;
+    margin-bottom:15px;
+}
+.romantic-ending p{
+    font-size:1.5rem;
+    color:#900c3f;
+    margin-bottom:20px;
+}
+
+/* Floating hearts animation */
+@keyframes floatHearts { 0%{transform:translateY(0) rotate(0deg); opacity:1;} 50%{transform:translateY(-150px) rotate(180deg); opacity:0.7;} 100%{transform:translateY(-300px) rotate(360deg); opacity:0;} }
+.heart-float { position:fixed; width:30px; height:30px; background:red; transform:rotate(-45deg); top:90%; animation:floatHearts 5s linear infinite; z-index:1000; }
+.heart-float::before,.heart-float::after { content:""; position:absolute; width:30px; height:30px; background:red; border-radius:50%; }
+.heart-float::before{ top:-15px; left:0; }
+.heart-float::after{ left:15px; top:0; }
+
+</style>
+</head>
+
+<body>
+
+<div class="quiz-box">
+
+    <!-- Intro -->
+    <div id="introScreen">
+        <h2>Let’s see how well you remember our beautiful memories… ❤️</h2>
+        <button onclick="startQuiz()">Start Quiz</button>
+    </div>
+
+    <!-- Question 1 -->
+    <div id="question1" style="display:none;">
+        <h3>1️⃣ Ne most aa enna kupdura word ennaa?</h3>
+        <button onclick="checkAnswer(false)">Ravi</button>
+        <button onclick="checkAnswer(true)">Buttu ma</button>
+        <button onclick="checkAnswer(false)">Tension panadhaa</button>
+        <p id="msg1"></p>
+    </div>
+
+    <!-- Question 2 -->
+    <div id="question2" style="display:none;">
+        <h3>2️⃣ Nama love annivesary date ennaaa?</h3>
+        <button onclick="checkAnswer2(false)">Nov 31</button>
+        <button onclick="checkAnswer2(true)">Nov 30</button>
+        <button onclick="checkAnswer2(false)">Nov 29</button>
+        <p id="msg2"></p>
+    </div>
+
+    <!-- Question 3 -->
+    <div id="question3" style="display:none;">
+        <h3>3️⃣ Ne enna 1st kupta word enna ?</h3>
+        <button onclick="checkAnswer3(true)">Bro</button>
+        <button onclick="checkAnswer3(false)">Ravi</button>
+        <button onclick="checkAnswer3(false)">Thambi</button>
+        <p id="msg3"></p>
+    </div>
+
+    <!-- Question 4 : Photo Quiz -->
+    <div id="question4" style="display:none;">
+        <h3>4️⃣ Tap to reveal our special memory 📸</h3>
+        <button onclick="showPhotoPopup()">Tap to reveal</button>
+        <div id="photoOptions" style="display:none; margin-top:15px;">
+            <p>Where was this photo taken?</p>
+            <button onclick="checkAnswer4(true)">2nd romance</button>
+            <button onclick="checkAnswer4(false)">3rd romance</button>
+            <button onclick="checkAnswer4(false)">4th romance</button>
+            <p id="msg4"></p>
+        </div>
+    </div>
+
+</div>
+
+<!-- Wrong Answer Popup -->
+<div id="wrongPopup" class="popup">
+    <div class="popup-box">
+        <h2>Oops 😅 Wrong Answer</h2>
+        <p>Try again or move to next question?</p>
+        <button onclick="tryAgain()">Try Again</button>
+        <button onclick="goNext()">Next Question</button>
+    </div>
+</div>
+
+<!-- Photo Reveal Popup -->
+<div id="photoPopup" class="popup photo-popup">
+    <div class="popup-box">
+        <img src="images/quiz.jpeg" alt="Memory Photo">
+        <button onclick="closePhotoPopup()">Close</button>
+    </div>
+</div>
+
+<!-- Romantic Ending -->
+<div class="romantic-ending" id="romanticEnding">
+    <h2>💖 Our Journey is Beautiful 💖</h2>
+    <p>Every memory we created is close to my heart. Thank you for reliving them with me! ❤️</p>
+    <div class="heart-float" style="left:10%; animation-delay:0s;"></div>
+    <div class="heart-float" style="left:30%; animation-delay:1s;"></div>
+    <div class="heart-float" style="left:50%; animation-delay:2s;"></div>
+    <div class="heart-float" style="left:70%; animation-delay:3s;"></div>
+    <div class="heart-float" style="left:90%; animation-delay:4s;"></div>
+</div>
+
+<script>
+let current = 1;
+
+function startQuiz(){
+    document.getElementById("introScreen").style.display="none";
+    document.getElementById("question1").style.display="block";
+}
+
+// Question 1
+function checkAnswer(correct){
+    if(correct){
+        document.getElementById("msg1").innerText="Correct ❤️";
+        document.getElementById("msg1").style.color="green";
+        setTimeout(()=>{
+            document.getElementById("question1").style.display="none";
+            document.getElementById("question2").style.display="block";
+            current = 2;
+        },1500);
+    }else{
+        document.getElementById("wrongPopup").style.display="flex";
+    }
+}
+
+// Question 2
+function checkAnswer2(correct){
+    if(correct){
+        document.getElementById("msg2").innerText="Paravala nayabam vechirukiyee...😍";
+        document.getElementById("msg2").style.color="green";
+        setTimeout(()=>{
+            document.getElementById("question2").style.display="none";
+            document.getElementById("question3").style.display="block";
+            current = 3;
+        },1500);
+    }else{
+        document.getElementById("wrongPopup").style.display="flex";
+    }
+}
+
+// Question 3
+function checkAnswer3(correct){
+    if(correct){
+        document.getElementById("msg3").innerText="Yes! Hi Broo  ✨";
+        document.getElementById("msg3").style.color="green";
+        setTimeout(()=>{
+            document.getElementById("question3").style.display="none";
+            document.getElementById("question4").style.display="block";
+            current = 4;
+        },1500);
+    }else{
+        document.getElementById("wrongPopup").style.display="flex";
+    }
+}
+
+// Photo Popup
+function showPhotoPopup(){
+    document.getElementById("photoPopup").style.display="flex";
+}
+
+function closePhotoPopup(){
+    document.getElementById("photoPopup").style.display="none";
+    document.getElementById("photoOptions").style.display="block";
+}
+
+// Question 4
+function checkAnswer4(correct){
+    if(correct){
+        document.getElementById("msg4").innerText="Correct! This memory is unforgettable 💖";
+        document.getElementById("msg4").style.color="green";
+        setTimeout(()=>{
+            document.getElementById("question4").style.display="none";
+            document.getElementById("romanticEnding").style.display="flex";
+            current = 5;
+        },1500);
+    }else{
+        document.getElementById("wrongPopup").style.display="flex";
+    }
+}
+
+// Popup Buttons
+function tryAgain(){
+    document.getElementById("wrongPopup").style.display="none";
+}
+
+function goNext(){
+    document.getElementById("wrongPopup").style.display="none";
+
+    if(current === 1){
+        document.getElementById("question1").style.display="none";
+        document.getElementById("question2").style.display="block";
+        current = 2;
+    } else if(current === 2){
+        document.getElementById("question2").style.display="none";
+        document.getElementById("question3").style.display="block";
+        current = 3;
+    } else if(current === 3){
+        document.getElementById("question3").style.display="none";
+        document.getElementById("question4").style.display="block";
+        current = 4;
+    } else if(current === 4){
+        document.getElementById("question4").style.display="none";
+        document.getElementById("romanticEnding").style.display="flex";
+    }
+}
+</script>
+
+</body>
+</html>

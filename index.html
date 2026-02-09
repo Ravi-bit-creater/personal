@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Our Love Story ❤️</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<section class="page page1">
+    <div class="confirm-box">
+        <h1>Are you alone? 😊</h1>
+        <div class="btn-group">
+            <button onclick="goWelcome()">Yes</button>
+            <button onclick="showNoPopup()">No</button>
+        </div>
+    </div>
+</section>
+
+<div id="noPopup" class="popup">
+    <div class="popup-box">
+        <h2>Go sit alone in a calm place ❤️</h2>
+        <button onclick="closeNoPopup()">Okay</button>
+    </div>
+</div>
+
+<section class="page page2" id="welcomePage">
+    <div class="welcome-overlay">
+        <h1 class="hover-text">Welcome to Our World ❤️</h1>
+        <button class="next-btn" onclick="openChoice()">Next</button>
+    </div>
+</section>
+
+<div id="choicePopup" class="popup">
+    <div class="popup-box">
+        <h2>What shall we do first? ❤️</h2>
+        <button onclick="goExplore()">🌍 Explore Our World</button>
+        <button onclick="goGame()">🎮 Play a Game</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
