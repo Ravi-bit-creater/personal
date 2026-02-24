@@ -21,3 +21,6 @@ function goExplore(){
 function goGame(){
     window.location.href = "games.html";
 }
+function goTalk(){
+    window.location.href = "talk.html";
+}
